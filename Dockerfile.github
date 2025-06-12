@@ -15,7 +15,7 @@ RUN apt-get update && apt-get install -y curl \
     rm -rf /var/lib/apt/lists/*
 
 RUN usermod -aG docker runner
-RUN chown docker:docker /var/run/docker.sock
+RUN chown runner:docker /var/run/docker.sock
 
 COPY github-actions-runner/entrypoint.sh ./entrypoint.sh
 RUN chmod +x ./entrypoint.sh
