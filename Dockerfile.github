@@ -16,6 +16,8 @@ RUN apt-get update && apt-get install -y curl \
 
 RUN usermod -aG docker runner
 
+RUN systemctl start docker
+
 COPY github-actions-runner/entrypoint.sh ./entrypoint.sh
 RUN chmod +x ./entrypoint.sh
 
