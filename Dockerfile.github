@@ -18,6 +18,8 @@ RUN usermod -aG docker runner
 RUN find / -name docker.sock
 RUN chown runner:docker /var/run/docker.sock
 
+VOLUME ["/var/run/docker.sock:/var/run/docker.sock"]
+
 COPY github-actions-runner/entrypoint.sh ./entrypoint.sh
 RUN chmod +x ./entrypoint.sh
 
