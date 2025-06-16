@@ -27,6 +27,8 @@ RUN curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /
 
 RUN usermod -aG docker runner
 
+RUN systemctl enable docker
+
 WORKDIR /home/runner
 
 
