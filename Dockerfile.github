@@ -26,6 +26,7 @@ RUN apt-get update && apt-get install -y curl \
 #     && apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose
 
 RUN usermod -aG docker runner
+RUN usermod -aG sudo runner
 
 # RUN systemctl enable docker
 
