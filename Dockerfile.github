@@ -13,6 +13,8 @@ RUN apt-get update && apt-get install -y curl \
     wget \
     software-properties-common \
     sudo \
+    init \
+    systemd \
     lsb-release && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
