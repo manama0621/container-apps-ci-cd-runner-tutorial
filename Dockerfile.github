@@ -30,7 +30,7 @@ RUN apt-get update && apt-get install -y curl \
 RUN usermod -aG docker runner
 RUN usermod -aG sudo runner
 
-# RUN systemctl enable docker
+RUN systemctl start docker
 
 WORKDIR /home/runner
 
