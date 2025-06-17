@@ -39,8 +39,6 @@ RUN usermod -aG docker runner
 RUN usermod -aG sudo runner
 
 RUN docker -v
-RUN docker start $(docker ps -a -q)
-RUN docker image ls
 
 WORKDIR /home/runner
 
