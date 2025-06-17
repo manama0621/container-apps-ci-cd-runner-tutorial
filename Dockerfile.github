@@ -39,6 +39,7 @@ RUN usermod -aG docker runner
 RUN usermod -aG sudo runner
 
 RUN docker -v
+RUN systemctl docker start
 
 WORKDIR /home/runner
 
