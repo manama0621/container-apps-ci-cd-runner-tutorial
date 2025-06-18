@@ -3,6 +3,8 @@ FROM ghcr.io/actions/actions-runner:latest
 
 USER root
 
+RUN apt list --installed
+
 # 既存のDockerをアンインストール
 RUN apt-get update && \
     apt-get remove -y docker.io && \
