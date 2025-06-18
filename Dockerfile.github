@@ -5,7 +5,7 @@ USER root
 
 # 既存のDockerをアンインストール
 RUN apt-get update && \
-    apt-get remove -y docker.io docker-ce docker-ce-cli containerd.io && \
+    apt-get remove -y docker.io && \
     apt-get autoremove -y
 
 # install curl and jq
