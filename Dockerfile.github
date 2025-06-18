@@ -43,7 +43,7 @@ RUN usermod -aG sudo runner
 RUN docker -v
 RUN ls -l /var/run
 RUN ls -l /run
-RUN service docker start
+# RUN service docker start
 
 WORKDIR /home/runner
 
