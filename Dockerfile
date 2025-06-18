@@ -35,7 +35,9 @@ RUN apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plug
 #     && apt-get update \
 #     && apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose
 
-RUN useradd -m runner -s /bin/bash | passwd runner | gpasswd -a runner docker,sudo
+RUN useradd -m runner -s /bin/bash 
+RUN passwd runner 
+RUN gpasswd -a runner docker,sudo
 
 RUN usermod -aG docker runner
 RUN usermod -aG sudo runner
