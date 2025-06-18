@@ -28,6 +28,9 @@ RUN echo \
 RUN apt-get update
 RUN apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
 
+RUN useradd -m -s /bin/bash runner && \
+    echo "runner:runner" | chpasswd
+
 # RUN curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg \
 #     && echo \
 #     "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian \
@@ -39,18 +42,21 @@ RUN apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plug
 # RUN passwd runner 
 # RUN gpasswd -a runner docker,sudo
 
-# RUN usermod -aG docker runner
-# RUN usermod -aG sudo runner
+RUN usermod -aG docker runner
+RUN usermod -aG sudo runner
 
 RUN docker -v
-RUN systemctl start docker
+RUN service docker start
 
-# WORKDIR /home/runner
+WORKDIR /home/runner
 
 
-COPY github-actions-runner/entrypoint.sh ./entrypoint.sh
+# COPY github-actions-runner/entrypoint.sh ./entrypoint.sh
+COPY github-actions-runner/* ./
+COPY github-actions-runner/bin ./bin
+COPY github-actions-runner/externals ./externals
 RUN chmod +x ./entrypoint.sh
 
-# USER runner
+USER runner
 
 ENTRYPOINT ["./entrypoint.sh"]
