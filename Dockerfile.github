@@ -42,6 +42,7 @@ RUN docker -v
 RUN ls -l /var/run
 RUN ls -l /run
 RUN systemctl enable docker
+RUN systemctl status docker
 
 WORKDIR /home/runner
 
