@@ -8,7 +8,7 @@ RUN apt-get update && apt-get install -y curl \
     jq \
     ca-certificates \
     gnupg \
-    # docker.io \
+    docker.io \
     git \
     wget \
     software-properties-common \
@@ -41,7 +41,7 @@ RUN usermod -aG sudo runner
 RUN docker -v
 RUN ls -l /var/run
 RUN ls -l /run
-RUN ls -l /run/mount
+RUN systemctl enable docker
 
 WORKDIR /home/runner
 
