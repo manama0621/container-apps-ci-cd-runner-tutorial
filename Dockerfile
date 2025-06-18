@@ -40,7 +40,7 @@ RUN usermod -aG docker runner
 RUN usermod -aG sudo runner
 
 RUN docker -v
-RUN service docker start
+# RUN service docker start
 
 WORKDIR /home/runner
 
