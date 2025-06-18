@@ -35,22 +35,22 @@ RUN apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plug
 #     && apt-get update \
 #     && apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose
 
-RUN useradd -m runner -s /bin/bash 
-RUN passwd runner 
-RUN gpasswd -a runner docker,sudo
+# RUN useradd -m runner -s /bin/bash 
+# RUN passwd runner 
+# RUN gpasswd -a runner docker,sudo
 
-RUN usermod -aG docker runner
-RUN usermod -aG sudo runner
+# RUN usermod -aG docker runner
+# RUN usermod -aG sudo runner
 
 RUN docker -v
 RUN systemctl start docker
 
-WORKDIR /home/runner
+# WORKDIR /home/runner
 
 
 COPY github-actions-runner/entrypoint.sh ./entrypoint.sh
 RUN chmod +x ./entrypoint.sh
 
-USER runner
+# USER runner
 
 ENTRYPOINT ["./entrypoint.sh"]
