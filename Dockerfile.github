@@ -3,6 +3,11 @@ FROM ghcr.io/actions/actions-runner:latest
 
 USER root
 
+# 既存のDockerをアンインストール
+RUN apt-get update && \
+    apt-get remove -y docker.io docker-ce docker-ce-cli containerd.io && \
+    apt-get autoremove -y
+
 # install curl and jq
 RUN apt-get update && apt-get install -y curl \
     jq \
@@ -20,16 +25,15 @@ RUN apt-get update && apt-get install -y curl \
     rm -rf /var/lib/apt/lists/*
 
 # Docker Install
-# RUN mkdir -p /etc/apt/keyrings
-# RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg
-# RUN echo \
-#   "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
-#   $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
-# RUN apt-get update
-# RUN apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin docker-buildx-plugin && \
-#     DOCKER_BUILDKIT=1 docker build --platform local -o type=local /tmp && \
-#     apt-get clean && \
-#     rm -rf /var/lib/apt/lists/*
+RUN mkdir -p /etc/apt/keyrings
+RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+RUN echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+  $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
+RUN apt-get update
+RUN apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin docker-buildx-plugin && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 RUN usermod -aG docker runner
 RUN usermod -aG sudo runner
