@@ -37,8 +37,7 @@ RUN usermod -aG sudo runner
 RUN docker -v
 RUN ls -l /var/run
 RUN ls -l /run
-RUN systemctl enable docker
-RUN systemctl status docker
+RUN docker image ls
 
 WORKDIR /home/runner
 
