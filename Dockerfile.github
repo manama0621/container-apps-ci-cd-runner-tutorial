@@ -37,7 +37,7 @@ RUN usermod -aG sudo runner
 RUN docker -v
 RUN ls -l /var/run
 RUN ls -l /run
-RUN docker image ls
+# RUN docker image ls
 
 WORKDIR /home/runner
 
