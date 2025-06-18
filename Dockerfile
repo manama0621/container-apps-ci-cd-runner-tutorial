@@ -19,6 +19,11 @@ RUN apt-get update && apt-get install -y curl \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
+
+RUN mkdir actions-runner && cd actions-runner && \
+    curl -o actions-runner-linux-x64-2.325.0.tar.gz -L https://github.com/actions/runner/releases/download/v2.325.0/actions-runner-linux-x64-2.325.0.tar.gz && \
+    tar xzf ./actions-runner-linux-x64-2.325.0.tar.gz 
+
 # Docker Install
 RUN mkdir -p /etc/apt/keyrings
 RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg
@@ -31,17 +36,6 @@ RUN apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plug
 RUN useradd -m -s /bin/bash runner && \
     echo "runner:runner" | chpasswd
 
-# RUN curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg \
-#     && echo \
-#     "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian \
-#     $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null \
-#     && apt-get update \
-#     && apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose
-
-# RUN useradd -m runner -s /bin/bash 
-# RUN passwd runner 
-# RUN gpasswd -a runner docker,sudo
-
 RUN usermod -aG docker runner
 RUN usermod -aG sudo runner
 
@@ -51,10 +45,10 @@ RUN service docker start
 WORKDIR /home/runner
 
 
-# COPY github-actions-runner/entrypoint.sh ./entrypoint.sh
-COPY github-actions-runner/* ./
-COPY github-actions-runner/bin ./bin
-COPY github-actions-runner/externals ./externals
+COPY github-actions-runner/entrypoint.sh ./entrypoint.sh
+# COPY github-actions-runner/* ./
+# COPY github-actions-runner/bin ./bin
+# COPY github-actions-runner/externals ./externals
 RUN chmod +x ./entrypoint.sh
 
 USER runner
