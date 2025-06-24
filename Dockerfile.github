@@ -57,12 +57,7 @@ RUN chown runner:runner /var/run/docker.sock
 RUN ls -l /run
 
 # ユーザー設定
-RUN usermod -aG docker runner && \
-    usermod -aG sudo runner && \
-    chmod 666 /var/run/docker.sock
-
-# デーモン起動設定
-CMD ["/bin/bash", "-c", "/usr/bin/dockerd --host=unix:///var/run/docker.sock & exec /home/runner/entrypoint.sh"]
+CMD ["chmod","777","/var/run/docker.sock"]
 
 WORKDIR /home/runner
 
