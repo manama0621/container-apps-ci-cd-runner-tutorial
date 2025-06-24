@@ -29,7 +29,8 @@ RUN docker -v
 
 RUN ls -l /etc/init.d/
 CMD ["dockerd", "--host=unix:///var/run/docker.sock"]
-VOLUME /var/run/docker.sock
+CMD ["ls", "-l","/var/run"]
+VOLUME ["/var/run/docker.sock"]
 # RUN service docker start
 
 RUN ls -l /var/run
