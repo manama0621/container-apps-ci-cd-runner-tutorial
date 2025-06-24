@@ -51,10 +51,10 @@ VOLUME /var/run/docker.sock
 RUN ls -l /var/run
 RUN ls -l /run
 RUN chmod 2777 /var/run/docker.sock
-RUN ls -l /var/run
+
 RUN ls -l /run
 RUN chown runner:runner /var/run/docker.sock
-RUN ls -l /var/run
+RUN ls -l /run
 
 WORKDIR /home/runner
 
