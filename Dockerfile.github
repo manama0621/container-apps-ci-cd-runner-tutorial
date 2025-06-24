@@ -27,6 +27,8 @@ RUN usermod -aG sudo runner
 
 RUN docker -v
 
+RUN --mount=type=bind,source=/var/run/docker.sock,target=/var/run/docker.sock ls -la /var/run
+
 RUN ls -l /etc/init.d/
 CMD ["dockerd", "--host=unix:///var/run/docker.sock"]
 CMD ["ls", "-l","/var/run"]
