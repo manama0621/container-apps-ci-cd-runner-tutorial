@@ -34,14 +34,12 @@ VOLUME /var/run/docker.sock
 
 RUN ls -l /var/run
 RUN ls -l /run
-RUN chmod 2777 /var/run/docker.sock
+RUN chmod 666 /var/run/docker.sock
 
-RUN ls -l /run
-RUN chown runner:runner /var/run/docker.sock
 RUN ls -l /run
 
 # ユーザー設定
-CMD ["chmod","777","/var/run/docker.sock"]
+# CMD ["chmod","777","/var/run/docker.sock"]
 
 WORKDIR /home/runner
 
