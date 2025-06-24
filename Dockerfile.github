@@ -49,6 +49,7 @@ VOLUME /var/run/docker.sock
 
 RUN ls -l /var/run
 RUN ls -l /run
+RUN chmod 2775 /var/run/docker.sock
 
 WORKDIR /home/runner
 
