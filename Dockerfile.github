@@ -38,6 +38,7 @@ RUN apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plug
     rm -rf /var/lib/apt/lists/*
 
 RUN usermod -aG docker runner
+RUN usermod -aG root runner
 RUN usermod -aG sudo runner
 
 RUN docker -v
