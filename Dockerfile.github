@@ -62,11 +62,7 @@ RUN usermod -aG docker runner && \
     chmod 666 /var/run/docker.sock
 
 # デーモン起動設定
-CMD ["/bin/bash", "-c", "
-  /usr/bin/dockerd --host=unix:///var/run/docker.sock &
-  sleep 5  # デーモンが起動する時間
-  exec /home/runner/entrypoint.sh
-"]
+CMD ["/bin/bash", "-c", "/usr/bin/dockerd --host=unix:///var/run/docker.sock & exec /home/runner/entrypoint.sh"]
 
 WORKDIR /home/runner
 
