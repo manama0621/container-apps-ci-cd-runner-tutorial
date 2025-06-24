@@ -45,7 +45,7 @@ RUN ls -l /var/run
 RUN ls -l /run
 RUN ls -l /etc/init.d/
 CMD ["dockerd", "--host=unix:///var/run/docker.sock"]
-RUN service docker start
+# RUN service docker start
 
 WORKDIR /home/runner
 
