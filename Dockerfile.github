@@ -22,7 +22,7 @@ RUN apt-get update && apt-get install -y curl \
     rm -rf /var/lib/apt/lists/*
 
 # Dockerビルド用の別ツール
-RUN apt-get update && apt-install -y buildah
+RUN apt-get update && apt-get install -y buildah
 
 RUN usermod -aG docker runner
 RUN usermod -aG root runner
