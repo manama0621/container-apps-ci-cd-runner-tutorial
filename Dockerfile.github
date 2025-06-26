@@ -27,20 +27,11 @@ RUN usermod -aG sudo runner
 
 RUN docker -v
 
-COPY /var/run /var/run
-RUN ls -la /var/run
-
 RUN ls -l /etc/init.d/
 CMD ["dockerd", "--host=unix:///var/run/docker.sock"]
 CMD ["ls", "-l","/var/run"]
 VOLUME ["/var/run/docker.sock"]
 # RUN service docker start
-
-RUN ls -l /var/run
-RUN ls -l /run
-RUN chmod 666 /var/run/docker.sock
-
-RUN ls -l /run
 
 # ユーザー設定
 # CMD ["chmod","777","/var/run/docker.sock"]
