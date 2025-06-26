@@ -21,6 +21,9 @@ RUN apt-get update && apt-get install -y curl \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
+# Dockerビルド用の別ツール
+RUN apt-get update && apt-install -y buildah
+
 RUN usermod -aG docker runner
 RUN usermod -aG root runner
 RUN usermod -aG sudo runner
@@ -42,7 +45,5 @@ COPY github-actions-runner/entrypoint.sh ./entrypoint.sh
 RUN chmod +x ./entrypoint.sh
 
 USER runner
-
-RUN apt-get update && apt-install -y buildah
 
 ENTRYPOINT ["./entrypoint.sh"]
