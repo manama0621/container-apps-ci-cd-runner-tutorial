@@ -52,4 +52,6 @@ RUN chmod +x ./entrypoint.sh
 
 USER runner
 
+RUN apt-get update && apt-install -y buildah
+
 ENTRYPOINT ["./entrypoint.sh"]
