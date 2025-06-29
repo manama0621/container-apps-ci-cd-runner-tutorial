@@ -1,0 +1,39 @@
+FROM debian:bookworm
+
+# 必要なツールのインストール
+RUN apt-get update && apt-get install -y \
+    curl \
+    git \
+    sudo \
+    uidmap \
+    buildah \
+    ca-certificates \
+    iptables \
+    fuse-overlayfs \
+    slirp4netns \
+    gnupg \
+    && apt-get clean
+
+# runner ユーザーの作成
+RUN useradd -m -s /bin/bash runner \
+    && echo "runner ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+
+# rootless buildah 用の設定（storageとuidmapなど）
+USER runner
+ENV XDG_RUNTIME_DIR=/run/user/1000
+RUN mkdir -p $XDG_RUNTIME_DIR && chmod 700 $XDG_RUNTIME_DIR
+
+# GitHub Actions Runner のセットアップ
+WORKDIR /home/runner/actions-runner
+RUN curl -O -L https://github.com/actions/runner/releases/download/v2.316.0/actions-runner-linux-x64-2.316.0.tar.gz \
+    && tar xzf actions-runner-linux-x64-2.316.0.tar.gz \
+    && rm actions-runner-linux-x64-2.316.0.tar.gz
+
+# 必要なパッケージインストールスクリプトの実行（rootless用）
+RUN ./bin/installdependencies.sh
+
+# Entrypoint（任意）
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+ENTRYPOINT ["/entrypoint.sh"]
