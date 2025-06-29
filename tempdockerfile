@@ -11,6 +11,8 @@ RUN apt-get update && apt-get install -y \
     iptables \
     && apt-get clean
 
+RUN docker buildx install
+
 # actions-runner固定のもの
 WORKDIR /home/runner
 
