@@ -17,8 +17,8 @@ WORKDIR /home/runner
 COPY github-actions-runner/entrypoint.sh ./entrypoint.sh
 RUN chmod +x ./entrypoint.sh
 
-echo 'runner:100000:65536' >> /etc/subuid
-echo 'runner:100000:65536' >> /etc/subgid
+RUN echo 'runner:100000:65536' >> /etc/subuid
+RUN echo 'runner:100000:65536' >> /etc/subgid
 
 # buildah を rootless で runner ユーザーが使えるようにする
 USER runner
