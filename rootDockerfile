@@ -1,0 +1,27 @@
+FROM ubuntu:22.04
+
+# 必要な依存
+RUN apt-get update && \
+    apt-get install -y curl git tar jq sudo build-essential \
+    podman buildah uidmap slirp4netns fuse-overlayfs iptables
+
+# GitHub Actions Runner のバージョン
+ENV RUNNER_VERSION=2.316.0
+ENV RUNNER_HOME=/actions-runner
+
+# runner ユーザーを後で作成する
+RUN mkdir -p $RUNNER_HOME && cd $RUNNER_HOME && \
+    curl -O -L https://github.com/actions/runner/releases/download/v${RUNNER_VERSION}/actions-runner-linux-x64-${RUNNER_VERSION}.tar.gz && \
+    tar xzf ./actions-runner-linux-x64-${RUNNER_VERSION}.tar.gz && \
+    rm actions-runner-linux-x64-${RUNNER_VERSION}.tar.gz
+
+WORKDIR $RUNNER_HOME
+
+# 自動起動スクリプト
+COPY entrypoint.sh .
+RUN chmod +x ./entrypoint.sh
+
+# 必要ならrunnerユーザーを作成しsudo付与
+# RUN useradd -m runner && echo "runner ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+
+ENTRYPOINT ["./entrypoint.sh"]
