@@ -1,0 +1,41 @@
+FROM ghcr.io/actions/actions-runner:latest
+
+# install curl and jq
+RUN apt-get update && apt-get install -y curl \
+    jq \
+    ca-certificates \
+    gnupg \
+    # docker.io \
+    git \
+    wget \
+    software-properties-common \
+    sudo \
+    init \
+    systemd \
+    lsb-release && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+# Kanikoの最新バージョン（適宜変えてください）
+ENV KANIKO_VERSION=v1.14.0
+
+# KanikoのバイナリをダウンロードしてPATHに配置
+RUN curl -Lo /kaniko/executor https://github.com/GoogleContainerTools/kaniko/releases/download/${KANIKO_VERSION}/executor && \
+    chmod +x /kaniko/executor
+
+# executorをPATHに通す（必要に応じて）
+ENV PATH="/kaniko:${PATH}"
+
+# Kanikoの作業ディレクトリ（認証ファイル等配置用）
+RUN mkdir -p /kaniko/.docker
+
+# actions-runner固定のもの
+WORKDIR /home/runner
+
+COPY github-actions-runner/entrypoint.sh ./entrypoint.sh
+RUN chmod +x ./entrypoint.sh
+
+USER runner
+
+ENTRYPOINT ["./entrypoint.sh"]
+
