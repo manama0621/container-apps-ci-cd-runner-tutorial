@@ -21,3 +21,13 @@ RUN mkdir -p $XDG_RUNTIME_DIR && chmod 700 $XDG_RUNTIME_DIR
 
 # 確認のための buildah version 出力（デバッグ用）
 RUN buildah --version
+
+# actions-runner固定のもの
+WORKDIR /home/runner
+
+COPY github-actions-runner/entrypoint.sh ./entrypoint.sh
+RUN chmod +x ./entrypoint.sh
+
+USER runner
+
+ENTRYPOINT ["./entrypoint.sh"]
