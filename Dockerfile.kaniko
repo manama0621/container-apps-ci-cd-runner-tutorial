@@ -1,6 +1,11 @@
-FROM gcr.io/kaniko-project/executor:latest
+FROM gcr.io/kaniko-project/executor:latest AS base
+
+FROM ghcr.io/actions/actions-runner:latest
+# for latest release, see https://github.com/actions/runner/releases
 
 USER root
+
+RUN apt list --installed
 
 # install curl and jq
 RUN apt-get update && apt-get install -y curl \
@@ -18,15 +23,6 @@ RUN apt-get update && apt-get install -y curl \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-# self-hosted runner設定
-RUN mkdir actions-runner && cd actions-runner \
-    curl -o actions-runner-linux-x64-2.325.0.tar.gz -L https://github.com/actions/runner/releases/download/v2.325.0/actions-runner-linux-x64-2.325.0.tar.gz \
-    echo "5020da7139d85c776059f351e0de8fdec753affc9c558e892472d43ebeb518f4  actions-runner-linux-x64-2.325.0.tar.gz" | shasum -a 256 -c \
-    tar xzf ./actions-runner-linux-x64-2.325.0.tar.gz \
-    ./config.sh --url https://github.com/manama0621/selfhosted-test --token BS6QQD2I2PAEABKJEZRKXNLIMM4PQ \
-    ./run.sh
-
-# action-runner設定
 WORKDIR /home/runner
 
 COPY github-actions-runner/entrypoint.sh ./entrypoint.sh
